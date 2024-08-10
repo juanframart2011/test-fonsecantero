@@ -11,6 +11,12 @@ class Task {
         return $stmt->execute([$userId, $title, $description]);
     }
 
+    public function getTask($taskId) {
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE id = ?");
+        $stmt->execute([$taskId]);
+        return $stmt->fetchAll();
+    }
+
     public function getTasks($userId) {
         $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE user_id = ?");
         $stmt->execute([$userId]);

@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $task->createTask($userId, $_POST['title'], $_POST['description']);
 
         echo '<div class="alert alert-success text-center" role="alert">Tarea Registrada</div>';
-    } elseif (isset($_POST['update'])) {
-        $task->updateTask($_POST['task_id'], $_POST['title'], $_POST['description'], $_POST['status']);
     }
 }
 
@@ -70,7 +68,24 @@ $tasks = $task->getTasks($userId);
                         <li class="list-group-item">
                             <h5><?php echo htmlspecialchars($task['title']); ?></h5>
                             <p><?php echo htmlspecialchars($task['description']); ?></p>
-                            <small>Estado: <?php echo htmlspecialchars($task['status']); ?></small>
+                            <small>Estado: 
+                            <?php
+                            if($task['status'] == 'pending'){
+                                echo '<span class="badge badge-primary">Pending</span>';
+                            }
+                            elseif($task['status'] == 'in_progress'){
+                                echo '<span class="badge badge-secondary">In Progress</span>';
+                            }
+                            elseif($task['status'] == 'completed'){
+                                echo '<span class="badge badge-success">Completed</span>';
+                            }
+                            elseif($task['status'] == 'danger'){
+                                echo '<span class="badge badge-danger">Danger</span>';
+                            }
+                            elseif($task['status'] == 'warning'){
+                                echo '<span class="badge badge-warning">Warning</span>';
+                            }
+                            ?></small>                       
                             <div class="mt-2">
                                 <a href="edit_task.php?id=<?php echo $task['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
                                 <a href="delete_task.php?id=<?php echo $task['id']; ?>" class="btn btn-danger btn-sm">Eliminar</a>
